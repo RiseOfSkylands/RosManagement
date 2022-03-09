@@ -1,0 +1,20 @@
+name: ROSManagement
+version: '${project.version}'
+main: com.skylands.Main
+api-version: 1.18
+commands:
+  management-update:
+    description: Update MySQL Database
+    usage: /<command>
+  management-dump:
+    description: Dump Values of lists
+    usage: /<command> [players,customblocks,customplayerblocks]
+  management-counters:
+    description: Edit counter value of player
+    usage: /<command> [player] [add,rem] [corn,wood,stone,gold,gems,power,vip] [amount]
+  management-clear-players:
+    description: Clear the player list data
+    usage: /<command>
+  management-custom:
+    description: Give CustomBlock
+    usage: /<command> [player] [name] [level]
