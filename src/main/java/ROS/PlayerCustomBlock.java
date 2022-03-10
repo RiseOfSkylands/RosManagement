@@ -1,11 +1,13 @@
 package ROS;
 
+import Functions.Block;
 import MySQL.Action;
 import com.skylands.Globals;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.inventory.ItemStack;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,8 +27,6 @@ public class PlayerCustomBlock {
 
     public PlayerCustomBlock(int id, String itemid, String name, int level, String MID, boolean enabled, Location location, World world,
                              Long buildstart, boolean builddone, Double storage){
-
-
         this.id = id;
         this.itemid = itemid;
         this.name = name;
@@ -38,6 +38,24 @@ public class PlayerCustomBlock {
         this.buildstart = buildstart;
         this.builddone = builddone;
         this.storage = storage;
+    }
+
+    public Material getMaterial(){
+        for(CustomBlock b : Globals.CustomBlocks.values()){
+            if(b.name.equals(name) && b.level == level){
+                return b.blockused;
+            }
+        }
+        return null;
+    }
+
+    public static boolean isCustomBlock(ItemStack block){
+        for(PlayerCustomBlock b : Globals.PlayerCustomBlocks.values()){
+            if(Block.ContainsLore(block, "ID:" + b.itemid)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void GetSQL() throws SQLException {

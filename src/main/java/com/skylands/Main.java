@@ -1,7 +1,9 @@
 package com.skylands;
 
+import Block.Place;
 import Commands.*;
 import Player.Join;
+import com.rok.skyblock.Islands.ActionBarItem;
 import com.rok.skyblock.Islands.BossBarItem;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -46,6 +48,7 @@ public final class Main extends JavaPlugin {
 
         //Register Events
         Bukkit.getPluginManager().registerEvents(new Join(), this);
+        Bukkit.getPluginManager().registerEvents(new Place(), this);
 
         JoinSpoof();
         UpdateCounters();
@@ -86,6 +89,9 @@ public final class Main extends JavaPlugin {
                 if(p.Counters != null){
                     p.Counters.bar.removePlayer(GamePlayer);
                 }
+                if(p.Actionbar != null){
+                    p.Actionbar.enabled = false;
+                }
             }
         }
     }
@@ -108,6 +114,13 @@ public final class Main extends JavaPlugin {
                                 p.Counters.gold = p.countData.gold;
                                 p.Counters.gem = p.countData.gems;
                                 p.Counters.updateBossBar();
+                            }
+                            if(p.Actionbar == null){
+                                ActionBarItem abi = new ActionBarItem(GamePlayer, (double)p.countData.power, (double)p.countData.vip, true);
+                                Globals.Players.get(p.UUID).Actionbar = abi;
+                            }else{
+                                p.Actionbar.power = (double)p.countData.power;
+                                p.Actionbar.vip = (double)p.countData.vip;
                             }
                         }
                     }

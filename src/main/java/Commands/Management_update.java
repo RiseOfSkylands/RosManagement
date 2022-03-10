@@ -1,5 +1,7 @@
 package Commands;
 
+import ROS.Player;
+import com.skylands.Globals;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

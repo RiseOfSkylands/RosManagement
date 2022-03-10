@@ -1,6 +1,7 @@
 package Player;
 
 import ROS.Player;
+import com.rok.skyblock.Islands.ActionBarItem;
 import com.rok.skyblock.Islands.BossBarItem;
 import com.skylands.Globals;
 import org.bukkit.event.EventHandler;
@@ -22,5 +23,10 @@ public class Join implements Listener {
 
         Globals.Players.get(p.UUID).Counters = bbi;
         bbi.sendBossBar();
+
+        ActionBarItem abi = new ActionBarItem(e.getPlayer(), (double)p.countData.power, (double)p.countData.vip, true);
+
+        Globals.Players.get(p.UUID).Actionbar = abi;
+
     }
 }

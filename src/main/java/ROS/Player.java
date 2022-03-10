@@ -1,9 +1,13 @@
 package ROS;
 
+import Functions.Block;
 import MySQL.Action;
+import com.rok.skyblock.Islands.ActionBarItem;
 import com.rok.skyblock.Islands.BossBarItem;
 import com.skylands.Globals;
+import org.bukkit.inventory.ItemStack;
 
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
@@ -20,8 +24,7 @@ public class Player {
     public String Created;
     public CountData countData;
     public BossBarItem Counters;
-    public List<PlayerCustomBlock> customBlocks = new ArrayList<PlayerCustomBlock>();
-
+    public ActionBarItem Actionbar;
     public Player(String UUID, String Username, String MID, String INVENTORYID, String Created, CountData countData){
 
         this.UUID = UUID;
@@ -30,6 +33,7 @@ public class Player {
         this.INVENTORYID = INVENTORYID;
         this.Created = Created;
         this.countData = countData;
+
     }
 
     public Player(org.bukkit.entity.Player gamePlayer){
@@ -39,12 +43,31 @@ public class Player {
         this.INVENTORYID = java.util.UUID.randomUUID().toString();
         this.Created = String.valueOf(Instant.now().getEpochSecond());
         this.countData = new CountData();
+
     }
 
     public static Player getPlayerFromName(String name){
         for(Player p : Globals.Players.values()){
             if(p.Username.equals(name)){
                 return p;
+            }
+        }
+        return null;
+    }
+
+    public static Player getPlayerFromUUID(String uuid){
+        for(Player p : Globals.Players.values()){
+            if(p.UUID.equals(uuid)){
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public PlayerCustomBlock getCustomBlock(ItemStack block){
+        for(PlayerCustomBlock b : Globals.PlayerCustomBlocks.values()){
+            if(Block.ContainsLore(block, "ID:" + b.itemid)){
+                return b;
             }
         }
         return null;

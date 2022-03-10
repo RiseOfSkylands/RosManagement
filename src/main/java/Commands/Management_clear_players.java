@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 public class Management_clear_players implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Globals.Players.clear();
+        //Globals.clear();
         sender.sendMessage(ChatColor.GREEN + "[RosManagement] Successful Clear");
         return true;
     }
