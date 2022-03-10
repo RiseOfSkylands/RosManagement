@@ -4,6 +4,7 @@ import ROS.Lib;
 import ROS.Player;
 import ROS.PlayerCustomBlock;
 import com.skylands.Globals;
+import com.skylands.HologramEdit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 public class Place  implements Listener {
     @EventHandler
-    public void BlockPlace(BlockPlaceEvent e) {
+    public void Place(BlockPlaceEvent e) {
         Player p = Player.getPlayerFromUUID(e.getPlayer().getUniqueId().toString());
 
         if(PlayerCustomBlock.isCustomBlock(e.getItemInHand())){
@@ -21,6 +22,9 @@ public class Place  implements Listener {
                 b.location = e.getBlockPlaced().getLocation();
                 b.world = e.getBlockPlaced().getWorld();
                 b.buildstart = System.currentTimeMillis();
+
+                HologramEdit.SetBuildTime(b.itemid);
+
             }else{
                 b.enabled = true;
                 b.location = e.getBlockPlaced().getLocation();

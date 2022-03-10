@@ -25,4 +25,13 @@ public class Lib {
         }
         return 0;
     }
+    public static int getKeyFromPlayerCustomBlocks(String itemid) {
+        for (Integer n : Globals.PlayerCustomBlocks.keySet()){
+            PlayerCustomBlock cb = Globals.PlayerCustomBlocks.get(n);
+            if(cb.itemid.equals(itemid)){
+                return n;
+            }
+        }
+        return 0;
+    }
 }

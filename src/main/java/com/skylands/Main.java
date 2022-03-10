@@ -9,24 +9,44 @@ import ROS.Lib;
 import ROS.PlayerCustomBlock;
 import com.rok.skyblock.Islands.ActionBarItem;
 import com.rok.skyblock.Islands.BossBarItem;
+import me.filoghost.holographicdisplays.api.beta.HolographicDisplaysAPI;
+import me.filoghost.holographicdisplays.api.beta.hologram.Hologram;
+import me.filoghost.holographicdisplays.api.beta.hologram.line.HologramLine;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public final class Main extends JavaPlugin {
     private static Main plugin;
+    private static HolographicDisplaysAPI holographicDisplaysAPI;
 
     public static Plugin getPlugin() {
         return plugin;
     }
 
+    public static HolographicDisplaysAPI getHoloAPI(){
+        return holographicDisplaysAPI;
+    }
+
     @Override
     public void onEnable() {
         // Plugin startup logic
+
+        if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
+            this.getLogger().severe("*** HolographicDisplays is not installed or not enabled. ***");
+            this.getLogger().severe("*** This plugin will be disabled. ***");
+            this.setEnabled(false);
+        } else {
+            holographicDisplaysAPI = HolographicDisplaysAPI.get(this);
+        }
+
         plugin = this;
         Globals.disabling = false;
 
@@ -44,25 +64,8 @@ public final class Main extends JavaPlugin {
             throwables.printStackTrace();
         }
 
-        //Register COmmands
-        this.getCommand("management-update").setExecutor(new Management_update());
-        this.getCommand("management-update").setTabCompleter(new TabComplete());
-
-        this.getCommand("management-dump").setExecutor(new Management_dump());
-        this.getCommand("management-dump").setTabCompleter(new TabComplete());
-
-        this.getCommand("management-counters").setExecutor(new Management_counters());
-        this.getCommand("management-counters").setTabCompleter(new TabComplete());
-
-        this.getCommand("management-clear-players").setExecutor(new Management_clear_players());
-
-        this.getCommand("management-custom").setExecutor(new Management_custom());
-        this.getCommand("management-custom").setTabCompleter(new TabComplete());
-
-        //Register Events
-        Bukkit.getPluginManager().registerEvents(new Join(), this);
-        Bukkit.getPluginManager().registerEvents(new Place(), this);
-        Bukkit.getPluginManager().registerEvents(new Break(), this);
+        RegisterCommands();
+        RegisterEvents();
 
         JoinSpoof();
         UpdateCounters();
@@ -83,6 +86,28 @@ public final class Main extends JavaPlugin {
         }
 
         RemoveCounters();
+    }
+
+    private void RegisterCommands(){
+        this.getCommand("management-update").setExecutor(new Management_update());
+        this.getCommand("management-update").setTabCompleter(new TabComplete());
+
+        this.getCommand("management-dump").setExecutor(new Management_dump());
+        this.getCommand("management-dump").setTabCompleter(new TabComplete());
+
+        this.getCommand("management-counters").setExecutor(new Management_counters());
+        this.getCommand("management-counters").setTabCompleter(new TabComplete());
+
+        this.getCommand("management-clear-players").setExecutor(new Management_clear_players());
+
+        this.getCommand("management-custom").setExecutor(new Management_custom());
+        this.getCommand("management-custom").setTabCompleter(new TabComplete());
+    }
+
+    private void RegisterEvents(){
+        Bukkit.getPluginManager().registerEvents(new Join(), this);
+        Bukkit.getPluginManager().registerEvents(new Place(), this);
+        Bukkit.getPluginManager().registerEvents(new Break(), this);
     }
 
     public void JoinSpoof(){
@@ -138,6 +163,22 @@ public final class Main extends JavaPlugin {
                 }
             }
         }, 0, 1200); //6000 5mins
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            public void run() {
+                for(PlayerCustomBlock b : Globals.PlayerCustomBlocks.values()){
+                    CustomBlock cb = CustomBlock.getCustomBlock(b);
+                    //If already done building show capacity
+                    if(b.enabled && b.builddone && cb.hour != 0 && b.storage != 0) {
+
+                    }
+                    if(!b.builddone && b.buildstart != 0){
+                        if(b.inLocation()){
+                            HologramEdit.SetBuildTime(b.itemid);
+                        }
+                    }
+                }
+            }
+        }, 0, 1200);
     }
 
     private void UpdateCounters(){

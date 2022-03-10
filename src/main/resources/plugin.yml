@@ -2,6 +2,8 @@ name: ROSManagement
 version: '${project.version}'
 main: com.skylands.Main
 api-version: 1.18
+depend: [roiSkyblock]
+softdepend: [HolographicDisplays]
 commands:
   management-update:
     description: Update MySQL Database
@@ -18,3 +20,6 @@ commands:
   management-custom:
     description: Give CustomBlock
     usage: /<command> [player] [name] [level]
+  management-debug:
+    description: Show debug holograms of blocks
+    usage: /<command>

@@ -12,6 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class PlayerCustomBlock {
@@ -42,7 +44,7 @@ public class PlayerCustomBlock {
         this.storage = storage;
     }
 
-    private Long getTimeLeft() {
+    public Long getTimeLeft() {
         Long timeleft = buildstart + Objects.requireNonNull(CustomBlock.getCustomBlock(this)).time - System.currentTimeMillis();
         if(timeleft <= 0){
             return 0L;
@@ -57,17 +59,37 @@ public class PlayerCustomBlock {
         return false;
     }
 
+    public String getPrettyTime(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:hh:mm");
+        Date date = new Date(getTimeLeft());
+        String time = simpleDateFormat.format(date);
+        return time;
+    }
+
     public boolean inLocation(){
+        try{
+            Material type = world.getBlockAt(location).getType();
+            if(type.equals(CustomBlock.getCustomBlock(this).blockused)) { return true; }
+
+        }catch (Exception ex) { return false; }
+        return false;
+        /*
         if(location.getX() != 0 && location.getY() != 0 && location.getZ() != 0 && world != null && Bukkit.getWorld(String.valueOf(world)) != null){
 
+            Material type = world.getBlockAt(location).getType();
+            /*
             Material type = Bukkit.getWorld(String.valueOf(world)).getBlockAt(
                     Integer.parseInt(new DecimalFormat("#").format(location.getX())),
                     Integer.parseInt(new DecimalFormat("#").format(location.getY())),
                     Integer.parseInt(new DecimalFormat("#").format(location.getZ()))).getType();
+
+            System.out.println("t-"+type.toString());
+            System.out.println("o-"+CustomBlock.getCustomBlock(this).blockused.toString());
             if(type.equals(CustomBlock.getCustomBlock(this).blockused)) { return true; } else { return false; }
         }else{
             return false;
         }
+        */
     }
 
     public Material getMaterial(){
