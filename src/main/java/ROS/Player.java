@@ -25,6 +25,9 @@ public class Player {
     public CountData countData;
     public BossBarItem Counters;
     public ActionBarItem Actionbar;
+
+    public boolean Debug = false;
+
     public Player(String UUID, String Username, String MID, String INVENTORYID, String Created, CountData countData){
 
         this.UUID = UUID;

@@ -15,6 +15,7 @@ public class Globals {
     public static Map<Integer, CustomBlock> CustomBlocks = new HashMap<Integer, CustomBlock>();
     public static Map<Integer, PlayerCustomBlock> PlayerCustomBlocks = new HashMap<Integer, PlayerCustomBlock>();
     public static Map<String, Hologram> PlayerCustomBlockHolograms = new HashMap<String, Hologram>();
+    public static Map<String, Hologram> DebugHolograms = new HashMap<String, Hologram>();
 
     //Plugin
     public static FileConfiguration cfg;

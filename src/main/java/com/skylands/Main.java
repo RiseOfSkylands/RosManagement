@@ -11,6 +11,7 @@ import com.rok.skyblock.Islands.ActionBarItem;
 import com.rok.skyblock.Islands.BossBarItem;
 import me.filoghost.holographicdisplays.api.beta.HolographicDisplaysAPI;
 import me.filoghost.holographicdisplays.api.beta.hologram.Hologram;
+import me.filoghost.holographicdisplays.api.beta.hologram.VisibilitySettings;
 import me.filoghost.holographicdisplays.api.beta.hologram.line.HologramLine;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -102,6 +103,8 @@ public final class Main extends JavaPlugin {
 
         this.getCommand("management-custom").setExecutor(new Management_custom());
         this.getCommand("management-custom").setTabCompleter(new TabComplete());
+
+        this.getCommand("management-debug").setExecutor(new Management_debug());
     }
 
     private void RegisterEvents(){
@@ -146,6 +149,23 @@ public final class Main extends JavaPlugin {
                         if(b.builddone && !b.enabled) { b.enabled = true; }
 
                         Globals.PlayerCustomBlocks.replace(Lib.getKeyFromPlayerCustomBlocks(b), b);
+                    }
+                }
+                for(Player GamePlayer : getServer().getOnlinePlayers()){
+                    ROS.Player p = ROS.Player.getPlayerFromUUID(GamePlayer.getUniqueId().toString());
+                    if(p.Debug){
+                        for(PlayerCustomBlock b : Globals.PlayerCustomBlocks.values()){
+                            if(b.inLocation()){
+                                HologramEdit.SetBlockDebug(b);
+                            }
+                            for(Hologram holo : Globals.DebugHolograms.values()){
+                                holo.getVisibilitySettings().setIndividualVisibility(GamePlayer, VisibilitySettings.Visibility.VISIBLE);
+                            }
+                        }
+                    }else{
+                        for(Hologram holo : Globals.DebugHolograms.values()){
+                            holo.getVisibilitySettings().setIndividualVisibility(GamePlayer, VisibilitySettings.Visibility.HIDDEN);
+                        }
                     }
                 }
             }
