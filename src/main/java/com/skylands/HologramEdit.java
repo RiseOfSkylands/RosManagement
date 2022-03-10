@@ -1,11 +1,13 @@
 package com.skylands;
 
 import ROS.Lib;
+import ROS.Player;
 import ROS.PlayerCustomBlock;
 import me.filoghost.holographicdisplays.api.beta.hologram.Hologram;
 import me.filoghost.holographicdisplays.api.beta.hologram.VisibilitySettings;
 import me.filoghost.holographicdisplays.api.beta.hologram.line.HologramLine;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 
 public class HologramEdit {
     private static double xViewOffset = 0.5;
@@ -27,8 +29,15 @@ public class HologramEdit {
             double x = holo.getPosition().getBlockX() + xDebugViewOffset;
             double y = holo.getPosition().getBlockY() + yDebugViewOffset;
             double z = holo.getPosition().getBlockZ() + zDebugViewOffset;
+
             holo.setPosition(holo.getPosition().getWorldIfLoaded(), x, y, z);
             return holo;
+        }else if(type.equals("debugPlayer")){
+            double x = holo.getPosition().getX() + xDebugViewOffset;
+            double y = holo.getPosition().getY() + yDebugViewOffset;
+            double z = holo.getPosition().getZ() + zDebugViewOffset;
+            holo.setPosition(holo.getPosition().getWorldIfLoaded(), x, y, z);
+
         }
         return null;
     }
@@ -91,6 +100,55 @@ public class HologramEdit {
             holo.getLines().appendText("BuildStart : " + String.valueOf(b.buildstart));
             holo.getLines().appendText("BuildDone : " + String.valueOf(b.builddone));
             holo.getLines().appendText("Storage : " + String.valueOf(b.storage));
+        }
+    }
+
+    public static void SetPlayerDebug(Player p){
+        if(!Globals.DebugHolograms.containsKey(p.UUID)){
+            Hologram holo = SetViewOffset(Main.getHoloAPI().createHologram(Main.getPlugin().getServer().getPlayer(p.Username).getLocation()), "debug");
+            holo.getVisibilitySettings().setGlobalVisibility(VisibilitySettings.Visibility.HIDDEN);
+
+            holo.getLines().appendText("Username : " + p.Username);
+            holo.getLines().appendText("UUID : " + p.UUID);
+            holo.getLines().appendText("MID : " + p.MID);
+            holo.getLines().appendText("InventoryID : " + p.INVENTORYID);
+            holo.getLines().appendText("Created : " + p.Created);
+            holo.getLines().appendText("Created : " + p.getPrettyTime());
+            holo.getLines().appendText("Debug : " + p.Debug);
+            holo.getLines().appendText("Corn : " + p.countData.corn);
+            holo.getLines().appendText("Wood : " + p.countData.wood);
+            holo.getLines().appendText("Stone : " + p.countData.stone);
+            holo.getLines().appendText("Gold : " + p.countData.gold);
+            holo.getLines().appendText("Gems : " + p.countData.gems);
+            holo.getLines().appendText("Power : " + p.countData.power);
+            holo.getLines().appendText("Vip : " + p.countData.vip);
+
+            Globals.DebugHolograms.put(p.UUID, holo);
+        }else{
+            Hologram holo = Globals.DebugHolograms.get(p.UUID);
+            Location ploc = Main.getPlugin().getServer().getPlayer(p.Username).getLocation();
+            ploc.setX(ploc.getX() + xDebugViewOffset);
+            ploc.setY(ploc.getY() + yDebugViewOffset);
+            ploc.setZ(ploc.getZ() + zDebugViewOffset);
+
+            holo.setPosition(ploc);
+            //holo = SetViewOffset(holo, "debugPlayer");
+            holo.getLines().clear();
+            holo.getLines().appendText("Username : " + p.Username);
+            holo.getLines().appendText("UUID : " + p.UUID);
+            holo.getLines().appendText("MID : " + p.MID);
+            holo.getLines().appendText("InventoryID : " + p.INVENTORYID);
+            holo.getLines().appendText("Created : " + p.Created);
+            holo.getLines().appendText("Created : " + p.getPrettyTime());
+            holo.getLines().appendText("Debug : " + p.Debug);
+            holo.getLines().appendText("Corn : " + p.countData.corn);
+            holo.getLines().appendText("Wood : " + p.countData.wood);
+            holo.getLines().appendText("Stone : " + p.countData.stone);
+            holo.getLines().appendText("Gold : " + p.countData.gold);
+            holo.getLines().appendText("Gems : " + p.countData.gems);
+            holo.getLines().appendText("Power : " + p.countData.power);
+            holo.getLines().appendText("Vip : " + p.countData.vip);
+
         }
     }
 }

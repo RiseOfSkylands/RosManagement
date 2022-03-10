@@ -167,6 +167,7 @@ public final class Main extends JavaPlugin {
                             holo.getVisibilitySettings().setIndividualVisibility(GamePlayer, VisibilitySettings.Visibility.HIDDEN);
                         }
                     }
+                    HologramEdit.SetPlayerDebug(p);
                 }
             }
         }, 20, 20);

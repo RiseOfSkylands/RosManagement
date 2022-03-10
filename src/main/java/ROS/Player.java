@@ -10,11 +10,11 @@ import org.bukkit.inventory.ItemStack;
 import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Player {
     public String UUID;
@@ -44,7 +44,7 @@ public class Player {
         this.Username = gamePlayer.getName();
         this.MID = java.util.UUID.randomUUID().toString();
         this.INVENTORYID = java.util.UUID.randomUUID().toString();
-        this.Created = String.valueOf(Instant.now().getEpochSecond());
+        this.Created = String.valueOf(System.currentTimeMillis());
         this.countData = new CountData();
 
     }
@@ -74,6 +74,11 @@ public class Player {
             }
         }
         return null;
+    }
+
+    public String getPrettyTime(){
+        Timestamp timestamp = new Timestamp(Long.parseLong(Created));
+        return timestamp.toString();
     }
 
     public Player Insert(){
