@@ -50,6 +50,15 @@ public class CustomBlock {
         this.produces = produces;
     }
 
+    public static CustomBlock getCustomBlock(PlayerCustomBlock b){
+        for(CustomBlock cb : Globals.CustomBlocks.values()){
+            if(cb.name.equals(b.name) && cb.level == b.level){
+                return cb;
+            }
+        }
+        return null;
+    }
+
     public ItemStack give(Player p){
         ItemStack block = new ItemStack(blockused);
         ItemMeta blockMeta = block.getItemMeta();
@@ -70,22 +79,6 @@ public class CustomBlock {
         blockMeta.setLore(blockLore);
         block.setItemMeta(blockMeta);
 
-        /*
-        Action d = new Action();
-        d.InsertUpdate("INSERT INTO builds (type, level, MID, itemid) VALUES (?, ?, ?, ?)",
-                d.createVals(
-                        name,
-                        String.valueOf(level),
-                        p.MID,
-                        blockID
-
-                ), d.createObjs(
-                        "str",
-                        "int",
-                        "str",
-                        "str"
-                ));
-                */
         PlayerCustomBlock b = new PlayerCustomBlock(Lib.random_int(53445,347594345), blockID, name, level, p.MID, false, new Location(Bukkit.getWorld(""), 0,0,0),
                 Bukkit.getWorld("World"), 0L, false, 0D);
         Globals.PlayerCustomBlocks.put(b.id, b);

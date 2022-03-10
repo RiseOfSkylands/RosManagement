@@ -21,9 +21,12 @@ public class Place  implements Listener {
                 b.location = e.getBlockPlaced().getLocation();
                 b.world = e.getBlockPlaced().getWorld();
                 b.buildstart = System.currentTimeMillis();
-
-                Globals.PlayerCustomBlocks.replace(Lib.getKeyFromPlayerCustomBlocks(b), b);
+            }else{
+                b.enabled = true;
+                b.location = e.getBlockPlaced().getLocation();
+                b.world = e.getBlockPlaced().getWorld();
             }
+            Globals.PlayerCustomBlocks.replace(Lib.getKeyFromPlayerCustomBlocks(b), b);
         }
     }
 }

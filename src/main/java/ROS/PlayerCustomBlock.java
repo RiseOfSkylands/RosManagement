@@ -11,6 +11,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.Objects;
 
 public class PlayerCustomBlock {
     public int id;
@@ -38,6 +40,34 @@ public class PlayerCustomBlock {
         this.buildstart = buildstart;
         this.builddone = builddone;
         this.storage = storage;
+    }
+
+    private Long getTimeLeft() {
+        Long timeleft = buildstart + Objects.requireNonNull(CustomBlock.getCustomBlock(this)).time - System.currentTimeMillis();
+        if(timeleft <= 0){
+            return 0L;
+        }
+        return timeleft;
+    }
+
+    public boolean isTimeDone(){
+        if(getTimeLeft() <= 0L && location.getX() != 0 && location.getY() != 0 && location.getZ() != 0 && location.getWorld() != null && world != null){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean inLocation(){
+        if(location.getX() != 0 && location.getY() != 0 && location.getZ() != 0 && world != null && Bukkit.getWorld(String.valueOf(world)) != null){
+
+            Material type = Bukkit.getWorld(String.valueOf(world)).getBlockAt(
+                    Integer.parseInt(new DecimalFormat("#").format(location.getX())),
+                    Integer.parseInt(new DecimalFormat("#").format(location.getY())),
+                    Integer.parseInt(new DecimalFormat("#").format(location.getZ()))).getType();
+            if(type.equals(CustomBlock.getCustomBlock(this).blockused)) { return true; } else { return false; }
+        }else{
+            return false;
+        }
     }
 
     public Material getMaterial(){

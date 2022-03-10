@@ -1,8 +1,12 @@
 package com.skylands;
 
+import Block.Break;
 import Block.Place;
 import Commands.*;
 import Player.Join;
+import ROS.CustomBlock;
+import ROS.Lib;
+import ROS.PlayerCustomBlock;
 import com.rok.skyblock.Islands.ActionBarItem;
 import com.rok.skyblock.Islands.BossBarItem;
 import org.bukkit.Bukkit;
@@ -11,6 +15,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
+import java.util.Objects;
 
 public final class Main extends JavaPlugin {
     private static Main plugin;
@@ -41,17 +46,28 @@ public final class Main extends JavaPlugin {
 
         //Register COmmands
         this.getCommand("management-update").setExecutor(new Management_update());
+        this.getCommand("management-update").setTabCompleter(new TabComplete());
+
         this.getCommand("management-dump").setExecutor(new Management_dump());
+        this.getCommand("management-dump").setTabCompleter(new TabComplete());
+
         this.getCommand("management-counters").setExecutor(new Management_counters());
+        this.getCommand("management-counters").setTabCompleter(new TabComplete());
+
         this.getCommand("management-clear-players").setExecutor(new Management_clear_players());
+
         this.getCommand("management-custom").setExecutor(new Management_custom());
+        this.getCommand("management-custom").setTabCompleter(new TabComplete());
 
         //Register Events
         Bukkit.getPluginManager().registerEvents(new Join(), this);
         Bukkit.getPluginManager().registerEvents(new Place(), this);
+        Bukkit.getPluginManager().registerEvents(new Break(), this);
 
         JoinSpoof();
         UpdateCounters();
+        UpdatePlayerCustomBlocks();
+
     }
 
     @Override
@@ -95,6 +111,35 @@ public final class Main extends JavaPlugin {
             }
         }
     }
+
+    private void UpdatePlayerCustomBlocks(){
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            public void run() {
+                for(PlayerCustomBlock b : Globals.PlayerCustomBlocks.values()){
+                    if(b.isTimeDone() && b.inLocation()) {
+                        if(!b.builddone) { b.builddone = true; }
+                        if(b.builddone && !b.enabled) { b.enabled = true; }
+
+                        Globals.PlayerCustomBlocks.replace(Lib.getKeyFromPlayerCustomBlocks(b), b);
+                    }
+                }
+            }
+        }, 20, 20);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            public void run() {
+                for(PlayerCustomBlock b : Globals.PlayerCustomBlocks.values()) {
+                    CustomBlock cb = CustomBlock.getCustomBlock(b);
+                    if(b.enabled && b.builddone && cb.hour != 0) {
+                        if(b.storage <= cb.capacity){
+                            b.storage = ((double)cb.hour/(double)3600) + b.storage;
+                            Globals.PlayerCustomBlocks.replace(Lib.getKeyFromPlayerCustomBlocks(b), b);
+                        }
+                    }
+                }
+            }
+        }, 0, 1200); //6000 5mins
+    }
+
     private void UpdateCounters(){
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             public void run() {
