@@ -13,7 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class PlayerCustomBlock {
@@ -60,10 +62,43 @@ public class PlayerCustomBlock {
     }
 
     public String getPrettyTime(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:hh:mm");
-        Date date = new Date(getTimeLeft());
-        String time = simpleDateFormat.format(date);
-        return time;
+        List<String> arry = new ArrayList<String>();
+        String send = "";
+        double delta = Math.abs(getTimeLeft()) / 1000;
+
+        double days = Math.floor(delta / 86400);
+        delta -= days * 86400;
+
+        double hours = Math.floor(delta / 3600) % 24;
+        delta -= hours * 3600;
+
+        double minutes = Math.floor(delta / 60) % 60;
+        delta -= minutes * 60;
+
+        double seconds = delta % 60;
+
+        if(days <= 0) {
+
+        } else { arry.add((days+"").substring(0,(days+"").length()-2) + "D"); }
+
+        if(hours <= 0) {
+
+        } else { arry.add((hours+"").substring(0,(hours+"").length()-2) + "H"); }
+
+        if(minutes <= 0) {
+
+        } else { arry.add((minutes+"").substring(0,(minutes+"").length()-2)+ "M"); }
+
+        if(seconds <= 0) {
+
+        } else { arry.add((seconds+"").substring(0,(seconds+"").length()-2) + "S"); }
+
+        for (String s : arry){
+            send += s + " ";
+        }
+        //send = send.substring(0, send.length() - 2);
+
+        return send;
     }
 
     public boolean inLocation(){

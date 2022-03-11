@@ -1,5 +1,6 @@
 package com.skylands;
 
+import ROS.CustomBlock;
 import ROS.Lib;
 import ROS.Player;
 import ROS.PlayerCustomBlock;
@@ -53,17 +54,51 @@ public class HologramEdit {
     public static void SetBuildTime(String itemid){
         if(Globals.PlayerCustomBlockHolograms.containsKey(itemid)) {
             Hologram holo = Globals.PlayerCustomBlockHolograms.get(itemid);
+            holo.setPosition(Globals.PlayerCustomBlocks.get(Lib.getKeyFromPlayerCustomBlocks(itemid)).location);
+            holo = SetViewOffset(holo, "default");
             holo.getLines().clear();
             holo.getLines().appendText(ChatColor.GRAY + "[" +
                     ChatColor.YELLOW + "Building" + ChatColor.GRAY + "]" +
-                    ChatColor.RED + "Time Left" + ChatColor.WHITE + ": " +
+                    ChatColor.RED + " Time Left" + ChatColor.WHITE + " : " +
                     ChatColor.YELLOW + Globals.PlayerCustomBlocks.get(Lib.getKeyFromPlayerCustomBlocks(itemid)).getPrettyTime());
         }else{
             Hologram holo = SetViewOffset(Main.getHoloAPI().createHologram(Globals.PlayerCustomBlocks.get(Lib.getKeyFromPlayerCustomBlocks(itemid)).location), "default");
             HologramLine a = holo.getLines().appendText(ChatColor.GRAY + "["+
                     ChatColor.YELLOW + "Building" + ChatColor.GRAY + "]" +
-                    ChatColor.RED + "Time Left" + ChatColor.WHITE + ": " +
+                    ChatColor.RED + " Time Left" + ChatColor.WHITE + " : " +
                     ChatColor.YELLOW + Globals.PlayerCustomBlocks.get(Lib.getKeyFromPlayerCustomBlocks(itemid)).getPrettyTime());
+            Globals.PlayerCustomBlockHolograms.put(itemid, holo);
+        }
+    }
+
+    public static void SetStorage(String itemid){
+        if(Globals.PlayerCustomBlockHolograms.containsKey(itemid)) {
+            Hologram holo = Globals.PlayerCustomBlockHolograms.get(itemid);
+            holo.setPosition(Globals.PlayerCustomBlocks.get(Lib.getKeyFromPlayerCustomBlocks(itemid)).location);
+            holo = SetViewOffset(holo, "default");
+            holo.getLines().clear();
+            PlayerCustomBlock cb = Globals.PlayerCustomBlocks.get(Lib.getKeyFromPlayerCustomBlocks(itemid));
+            String storage = (cb.storage + "");
+            storage = storage.substring(0, storage.indexOf("."));
+            holo.getLines().appendText(ChatColor.GRAY + "[" +
+                    ChatColor.YELLOW + "Gaining" + ChatColor.GRAY + "]" +
+                    ChatColor.RED + " Storage" + ChatColor.WHITE + " : " +
+                    ChatColor.YELLOW + storage + "/" + ChatColor.RED + CustomBlock.getCustomBlock(cb).capacity);
+            holo.getLines().appendText(ChatColor.GRAY + "[" +
+                    ChatColor.YELLOW + "Makes" + ChatColor.GRAY + "] " +
+                    ChatColor.RED + CustomBlock.getCustomBlock(cb).produces);
+        }else{
+            Hologram holo = SetViewOffset(Main.getHoloAPI().createHologram(Globals.PlayerCustomBlocks.get(Lib.getKeyFromPlayerCustomBlocks(itemid)).location), "default");
+            PlayerCustomBlock cb = Globals.PlayerCustomBlocks.get(Lib.getKeyFromPlayerCustomBlocks(itemid));
+            String storage = (cb.storage + "");
+            storage = storage.substring(0, storage.indexOf("."));
+            HologramLine a = holo.getLines().appendText(ChatColor.GRAY + "["+
+                    ChatColor.YELLOW + "Gaining" + ChatColor.GRAY + "]" +
+                    ChatColor.RED + " Storage" + ChatColor.WHITE + " : " +
+                    ChatColor.YELLOW + storage + ChatColor.WHITE + "/" + ChatColor.RED + CustomBlock.getCustomBlock(cb).capacity);
+            holo.getLines().appendText(ChatColor.GRAY + "[" +
+                    ChatColor.YELLOW + "Makes" + ChatColor.GRAY + "] " +
+                    ChatColor.RED + CustomBlock.getCustomBlock(cb).produces);
             Globals.PlayerCustomBlockHolograms.put(itemid, holo);
         }
     }
@@ -88,6 +123,8 @@ public class HologramEdit {
             Globals.DebugHolograms.put(b.itemid, holo);
         }else{
             Hologram holo = Globals.DebugHolograms.get(b.itemid);
+            holo.setPosition(Globals.PlayerCustomBlocks.get(Lib.getKeyFromPlayerCustomBlocks(b.itemid)).location);
+            holo = SetViewOffset(holo, "debug");
             holo.getLines().clear();
             holo.getLines().appendText("ID : " + String.valueOf(b.id));
             holo.getLines().appendText("ItemID : " + b.itemid);

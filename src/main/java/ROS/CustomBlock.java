@@ -85,6 +85,28 @@ public class CustomBlock {
         return block;
     }
 
+    public ItemStack giveExisting(PlayerCustomBlock b){
+        ItemStack block = new ItemStack(blockused);
+        ItemMeta blockMeta = block.getItemMeta();
+
+        blockMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', display));
+        blockMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
+        ArrayList<String> blockLore = new ArrayList();
+
+        blockLore.add(ChatColor.AQUA + description);
+        if(level != 0) { blockLore.add(ChatColor.YELLOW + "Level" + ChatColor.GRAY + ":" + ChatColor.WHITE + level); }
+        if(hour != 0) { blockLore.add(ChatColor.YELLOW + "Hourly Gain" + ChatColor.GRAY + ":" + ChatColor.WHITE + hour); }
+        if(capacity != 999999999) { blockLore.add(ChatColor.RED + "Capacity" + ChatColor.GRAY + ":" + ChatColor.WHITE + capacity); }
+
+        blockLore.add(ChatColor.DARK_GRAY + "ID:" + b.itemid);
+
+        blockMeta.setLore(blockLore);
+        block.setItemMeta(blockMeta);
+
+        return block;
+    }
+
     public static void GetSQL() throws SQLException {
         //Get data from items table via MySQL
         Action d = new Action();

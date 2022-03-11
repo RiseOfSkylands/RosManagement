@@ -189,8 +189,10 @@ public final class Main extends JavaPlugin {
                 for(PlayerCustomBlock b : Globals.PlayerCustomBlocks.values()){
                     CustomBlock cb = CustomBlock.getCustomBlock(b);
                     //If already done building show capacity
-                    if(b.enabled && b.builddone && cb.hour != 0 && b.storage != 0) {
-
+                    if(b.enabled && b.builddone && cb.hour != 0) {
+                        if(b.inLocation()){
+                            HologramEdit.SetStorage(b.itemid);
+                        }
                     }
                     if(!b.builddone && b.buildstart != 0){
                         if(b.inLocation()){

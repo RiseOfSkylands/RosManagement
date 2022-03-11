@@ -6,6 +6,7 @@ import ROS.Player;
 import ROS.PlayerCustomBlock;
 import com.skylands.Globals;
 import com.skylands.HologramEdit;
+import com.skylands.Main;
 import me.filoghost.holographicdisplays.api.beta.hologram.Hologram;
 import me.filoghost.holographicdisplays.api.beta.hologram.line.HologramLine;
 import org.bukkit.Bukkit;
@@ -36,6 +37,12 @@ public class Break implements Listener {
                         Globals.PlayerCustomBlocks.replace(Lib.getKeyFromPlayerCustomBlocks(b), b);
 
                         HologramEdit.Clear(b.itemid);
+
+                        for (CustomBlock customBlock : Globals.CustomBlocks.values()){
+                            if(customBlock.name.toLowerCase().equals(b.name.toLowerCase()) && customBlock.level == b.level){
+                                e.getPlayer().getInventory().addItem(customBlock.giveExisting(b));
+                            }
+                        }
                     }
                 }
             }

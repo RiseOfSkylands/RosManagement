@@ -23,14 +23,19 @@ public class Place  implements Listener {
                 b.world = e.getBlockPlaced().getWorld();
                 b.buildstart = System.currentTimeMillis();
 
+                Globals.PlayerCustomBlocks.replace(Lib.getKeyFromPlayerCustomBlocks(b), b);
+
                 HologramEdit.SetBuildTime(b.itemid);
 
             }else{
                 b.enabled = true;
                 b.location = e.getBlockPlaced().getLocation();
                 b.world = e.getBlockPlaced().getWorld();
+
+                Globals.PlayerCustomBlocks.replace(Lib.getKeyFromPlayerCustomBlocks(b), b);
+
+                HologramEdit.SetStorage(b.itemid);
             }
-            Globals.PlayerCustomBlocks.replace(Lib.getKeyFromPlayerCustomBlocks(b), b);
         }
     }
 }
