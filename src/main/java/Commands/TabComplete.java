@@ -33,6 +33,7 @@ public class TabComplete implements TabCompleter {
                 list.add("players");
                 list.add("customblocks");
                 list.add("customplayerblocks");
+                list.add("inventories");
                 return list;
             }
             if(args.length > 1){

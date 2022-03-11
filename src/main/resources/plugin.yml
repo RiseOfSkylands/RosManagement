@@ -10,7 +10,7 @@ commands:
     usage: /<command> [get,post]
   management-dump:
     description: Dump Values of lists
-    usage: /<command> [players,customblocks,customplayerblocks]
+    usage: /<command> [players,customblocks,customplayerblocks,inventories]
   management-counters:
     description: Edit counter value of player
     usage: /<command> [player] [add,rem] [corn,wood,stone,gold,gems,power,vip] [amount]
@@ -22,4 +22,4 @@ commands:
     usage: /<command> [player] [name] [level]
   management-debug:
     description: Show debug holograms of blocks
-    usage: /<command>
+    usage: /<command> [player]

@@ -1,6 +1,7 @@
 package Commands;
 
 import ROS.CustomBlock;
+import ROS.Inventory;
 import ROS.Player;
 import ROS.PlayerCustomBlock;
 import com.google.gson.Gson;
@@ -67,6 +68,14 @@ public class Management_dump implements CommandExecutor {
                                 + "\n      BuildStart:" + b.buildstart
                                 + "\n      BuildDone:" + b.builddone
                                 + "\n      Storage:" + b.storage
+                        );
+                    }
+                    break;
+                case "inventories":
+                    for(Inventory i : Globals.Inventories.values()){
+                        sender.sendMessage(i.id + "\n      " + i.INVENTORYID
+                                + "\n      Pages:" + i.pages
+                                + "\n      Items:" + i.items
                         );
                     }
                     break;

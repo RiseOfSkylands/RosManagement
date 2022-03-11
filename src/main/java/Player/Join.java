@@ -1,5 +1,6 @@
 package Player;
 
+import ROS.Inventory;
 import ROS.Player;
 import com.rok.skyblock.Islands.ActionBarItem;
 import com.rok.skyblock.Islands.BossBarItem;
@@ -15,6 +16,9 @@ public class Join implements Listener {
     public void Join(PlayerJoinEvent e) {
         if(!Globals.Players.containsKey(e.getPlayer().getUniqueId().toString())){
             new Player(e.getPlayer()).Insert();
+        }
+        if(!Globals.Inventories.containsKey(Player.getPlayerFromUUID(e.getPlayer().getUniqueId().toString()).INVENTORYID)){
+            new Inventory(Player.getPlayerFromUUID(e.getPlayer().getUniqueId().toString()).INVENTORYID).Insert();
         }
         Player p = Globals.Players.get(e.getPlayer().getUniqueId().toString());
 

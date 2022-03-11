@@ -5,6 +5,7 @@ import Block.Place;
 import Commands.*;
 import Player.Join;
 import ROS.CustomBlock;
+import ROS.Inventory;
 import ROS.Lib;
 import ROS.PlayerCustomBlock;
 import com.rok.skyblock.Islands.ActionBarItem;
@@ -61,6 +62,7 @@ public final class Main extends JavaPlugin {
             ROS.PlayerCustomBlock.GetSQL();
             ROS.CustomBlock.GetSQL();
             ROS.Player.GetSQL();
+            ROS.Inventory.GetSQL();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -81,6 +83,7 @@ public final class Main extends JavaPlugin {
 
         try {
             ROS.Player.UpdateSQL();
+            ROS.Inventory.UpdateSQL();
             ROS.PlayerCustomBlock.UpdateSQL();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -117,6 +120,9 @@ public final class Main extends JavaPlugin {
         for(Player GamePlayer : getServer().getOnlinePlayers()){
             if(!Globals.Players.containsKey(GamePlayer.getUniqueId().toString())){
                 new ROS.Player(GamePlayer).Insert();
+            }
+            if(!Globals.Inventories.containsKey(ROS.Player.getPlayerFromUUID(GamePlayer.getUniqueId().toString()).INVENTORYID)){
+                new Inventory(ROS.Player.getPlayerFromUUID(GamePlayer.getUniqueId().toString()).INVENTORYID).Insert();
             }
         }
     }

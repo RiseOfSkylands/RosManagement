@@ -20,6 +20,7 @@ public class Management_update implements CommandExecutor {
         try {
             if(type.equals("post")){
                 ROS.Player.UpdateSQL();
+                ROS.Inventory.UpdateSQL();
                 ROS.PlayerCustomBlock.UpdateSQL();
                 sender.sendMessage(ChatColor.GREEN + "[RosManagement] Successful Post");
             }
@@ -30,10 +31,12 @@ public class Management_update implements CommandExecutor {
                 }
 
                 Globals.Players.clear();
+                Globals.Inventories.clear();
                 Globals.PlayerCustomBlocks.clear();
                 Globals.CustomBlocks.clear();
 
                 ROS.Player.GetSQL();
+                ROS.Inventory.GetSQL();
                 ROS.PlayerCustomBlock.GetSQL();
                 ROS.CustomBlock.GetSQL();
                 sender.sendMessage(ChatColor.GREEN + "[RosManagement] Successful Get");

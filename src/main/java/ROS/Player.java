@@ -152,7 +152,6 @@ public class Player {
                 //Update player
                 d.InsertUpdate("update players set Username = ?, MID = ?, INVENTORYID = ?, Created = ?, " +
                                 "vip = ?, power = ?, corn = ?, wood = ?, stone = ?, gold = ?, gems = ? WHERE UUID = '" + p.UUID + "'",
-
                         d.createVals(
                                 p.Username,
                                 p.MID,

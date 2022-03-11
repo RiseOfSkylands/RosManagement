@@ -1,9 +1,6 @@
 package com.skylands;
 
-import ROS.CustomBlock;
-import ROS.Lib;
-import ROS.Player;
-import ROS.PlayerCustomBlock;
+import ROS.*;
 import me.filoghost.holographicdisplays.api.beta.hologram.Hologram;
 import me.filoghost.holographicdisplays.api.beta.hologram.VisibilitySettings;
 import me.filoghost.holographicdisplays.api.beta.hologram.line.HologramLine;
@@ -144,6 +141,7 @@ public class HologramEdit {
         if(!Globals.DebugHolograms.containsKey(p.UUID)){
             Hologram holo = SetViewOffset(Main.getHoloAPI().createHologram(Main.getPlugin().getServer().getPlayer(p.Username).getLocation()), "debug");
             holo.getVisibilitySettings().setGlobalVisibility(VisibilitySettings.Visibility.HIDDEN);
+            Inventory i = Globals.Inventories.get(p.INVENTORYID);
 
             holo.getLines().appendText("Username : " + p.Username);
             holo.getLines().appendText("UUID : " + p.UUID);
@@ -159,6 +157,8 @@ public class HologramEdit {
             holo.getLines().appendText("Gems : " + p.countData.gems);
             holo.getLines().appendText("Power : " + p.countData.power);
             holo.getLines().appendText("Vip : " + p.countData.vip);
+            holo.getLines().appendText("Inventory Pages : " + i.pages);
+            holo.getLines().appendText("Inventory Items : " + i.items);
 
             Globals.DebugHolograms.put(p.UUID, holo);
         }else{
@@ -169,6 +169,9 @@ public class HologramEdit {
             ploc.setZ(ploc.getZ() + zDebugViewOffset);
 
             holo.setPosition(ploc);
+
+            Inventory i = Globals.Inventories.get(p.INVENTORYID);
+
             //holo = SetViewOffset(holo, "debugPlayer");
             holo.getLines().clear();
             holo.getLines().appendText("Username : " + p.Username);
@@ -185,6 +188,8 @@ public class HologramEdit {
             holo.getLines().appendText("Gems : " + p.countData.gems);
             holo.getLines().appendText("Power : " + p.countData.power);
             holo.getLines().appendText("Vip : " + p.countData.vip);
+            holo.getLines().appendText("Inventory Pages : " + i.pages);
+            holo.getLines().appendText("Inventory Items : " + i.items);
 
         }
     }
