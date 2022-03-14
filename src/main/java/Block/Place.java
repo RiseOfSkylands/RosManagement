@@ -3,6 +3,7 @@ package Block;
 import ROS.Lib;
 import ROS.Player;
 import ROS.PlayerCustomBlock;
+import com.rok.skyblock.Schematic.BlockHitBox;
 import com.skylands.Globals;
 import com.skylands.HologramEdit;
 import org.bukkit.event.EventHandler;
@@ -36,6 +37,11 @@ public class Place  implements Listener {
 
                 HologramEdit.SetStorage(b.itemid);
             }
+
+            BlockHitBox bhb = new BlockHitBox(b.location);
+            bhb.setBlock(b.getMaterial(), "miners0.schematic");
+
+
         }
     }
 }

@@ -4,6 +4,7 @@ import Block.Break;
 import Block.Place;
 import Commands.*;
 import Player.Join;
+import Player.Interact;
 import ROS.CustomBlock;
 import ROS.Inventory;
 import ROS.Lib;
@@ -81,12 +82,14 @@ public final class Main extends JavaPlugin {
         // Plugin shutdown logic
         Globals.disabling = true;
 
-        try {
-            ROS.Player.UpdateSQL();
-            ROS.Inventory.UpdateSQL();
-            ROS.PlayerCustomBlock.UpdateSQL();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        if(!Globals.disableUpdate){
+            try {
+                ROS.Player.UpdateSQL();
+                ROS.Inventory.UpdateSQL();
+                ROS.PlayerCustomBlock.UpdateSQL();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
 
         RemoveCounters();
@@ -108,10 +111,16 @@ public final class Main extends JavaPlugin {
         this.getCommand("management-custom").setTabCompleter(new TabComplete());
 
         this.getCommand("management-debug").setExecutor(new Management_debug());
+
+        this.getCommand("management-var").setExecutor(new Management_var());
+        this.getCommand("management-var").setTabCompleter(new TabComplete());
+
+        this.getCommand("management-reload").setExecutor(new Management_reload());
     }
 
     private void RegisterEvents(){
         Bukkit.getPluginManager().registerEvents(new Join(), this);
+        Bukkit.getPluginManager().registerEvents(new Interact(), this);
         Bukkit.getPluginManager().registerEvents(new Place(), this);
         Bukkit.getPluginManager().registerEvents(new Break(), this);
     }
@@ -177,6 +186,7 @@ public final class Main extends JavaPlugin {
                 }
             }
         }, 20, 20);
+
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             public void run() {
                 for(PlayerCustomBlock b : Globals.PlayerCustomBlocks.values()) {

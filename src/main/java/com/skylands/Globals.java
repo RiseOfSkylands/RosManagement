@@ -19,9 +19,14 @@ public class Globals {
     public static Map<String, Hologram> DebugHolograms = new HashMap<String, Hologram>();
     public static Map<String, Inventory> Inventories = new HashMap<String, Inventory>();
 
+    public static boolean disableUpdate = false;
+
     //Plugin
     public static FileConfiguration cfg;
     public static String folder;
     public static boolean disabling = false;
+
+    //Custom Item list
+
 
 }

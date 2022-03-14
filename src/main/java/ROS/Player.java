@@ -5,7 +5,11 @@ import MySQL.Action;
 import com.rok.skyblock.Islands.ActionBarItem;
 import com.rok.skyblock.Islands.BossBarItem;
 import com.skylands.Globals;
+import com.skylands.Main;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.sql.Array;
 import java.sql.ResultSet;

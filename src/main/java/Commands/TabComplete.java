@@ -86,6 +86,20 @@ public class TabComplete implements TabCompleter {
                 return list;
             }
         }
+        if (command.getName().equalsIgnoreCase("management-var")) {
+            if (args.length == 1) {
+                list.add("disableUpdate");
+                list.add("disableUpdate = " + Globals.disableUpdate);
+                return list;
+            }
+            if (args.length == 2) {
+                if(args[0].equals("disableUpdate")){
+                    list.add("true");
+                    list.add("false");
+                }
+                return list;
+            }
+        }
         return null;
     }
 }

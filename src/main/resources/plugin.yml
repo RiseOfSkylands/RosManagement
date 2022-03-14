@@ -23,3 +23,10 @@ commands:
   management-debug:
     description: Show debug holograms of blocks
     usage: /<command> [player]
+  management-var:
+    description: Edit hard variables
+    usage: /<command> [var] [value]
+  management-reload:
+    description: Reload plugin
+    usage: /<command>
+

@@ -32,5 +32,6 @@ public class Join implements Listener {
 
         Globals.Players.get(p.UUID).Actionbar = abi;
 
+
     }
 }
