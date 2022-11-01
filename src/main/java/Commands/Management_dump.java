@@ -23,6 +23,13 @@ public class Management_dump implements CommandExecutor {
         String type = args[0].toLowerCase();
         try{
             switch(type){
+                case "vars":
+                    sender.sendMessage("Vars"
+                            + "\n      bDisableUpdate:" + Globals.disableUpdate
+                            + "\n      Disabling:" + Globals.disabling
+
+                    );
+                    break;
                 case "players":
                     for(Player p : Globals.Players.values()){
                         sender.sendMessage(p.UUID + "\n      " + p.Username

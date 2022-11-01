@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -64,7 +63,7 @@ public class CustomBlock {
         ItemMeta blockMeta = block.getItemMeta();
 
         blockMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', display));
-        blockMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        //blockMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         ArrayList<String> blockLore = new ArrayList();
 
@@ -90,7 +89,7 @@ public class CustomBlock {
         ItemMeta blockMeta = block.getItemMeta();
 
         blockMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', display));
-        blockMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        //blockMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         ArrayList<String> blockLore = new ArrayList();
 

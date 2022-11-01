@@ -13,7 +13,11 @@ public class Management_var  implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Lib.PrintArray(args);
         if(args[0].equals("disableUpdate")){
-            Globals.disableUpdate = Boolean.getBoolean(args[1].toLowerCase());
+            if(args[1].toLowerCase().equals("true")){
+                Globals.disableUpdate = true;
+            }else{
+                Globals.disableUpdate = false;
+            }
             sender.sendMessage(ChatColor.YELLOW + "[RosManagement] disableUpdate = " + Globals.disableUpdate);
         }
         return true;

@@ -4,12 +4,12 @@ import ROS.CustomBlock;
 import ROS.Player;
 import com.skylands.Globals;
 import com.skylands.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -20,6 +20,10 @@ public class Management_custom implements CommandExecutor {
     ///<command>  /<command> [player] [name] [level]
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!(sender instanceof Player)) { return false; }
+        if(args.length != 1) { return false; }
+        if(Bukkit.getPlayerExact(args[0]) == null) { return false; }
+
         String player = args[0];
         String name = args[1];
         int level = Integer.parseInt(args[2]);
