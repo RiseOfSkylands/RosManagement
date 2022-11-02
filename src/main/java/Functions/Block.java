@@ -7,8 +7,9 @@ import java.util.ArrayList;
 
 public class Block {
     public static String getDisplayName(ItemStack b){
-        String arry = b.getItemMeta().getDisplayNameComponent().toString();
-        return ChatColor.stripColor(arry);
+        //BaseComponent[] arry = (BaseComponent[]) b.getItemMeta().getDisplayNameComponent();
+        //return ChatColor.stripColor(arry[0].toPlainText());
+        return "";
     }
     public static boolean ContainsLore(ItemStack b, String val){
         if(b.getItemMeta().getLore() != null){
